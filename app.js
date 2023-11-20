@@ -5,6 +5,8 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const newsRouter = require("./routes/news");
+const scheduleRouter = require("./routes/schedule");
 
 const app = express();
 
@@ -18,5 +20,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/news", newsRouter);
+app.use("/schedule", scheduleRouter);
+
+// TODO: move port to .env
+app.listen(3001, function(){
+    console.log("Server running, maybe...");
+});
 
 module.exports = app;
