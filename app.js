@@ -7,6 +7,8 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const newsRouter = require("./routes/news");
 const scheduleRouter = require("./routes/schedule");
+const groupsRouter = require("./routes/groups");
+
 
 const app = express();
 
@@ -22,6 +24,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/news", newsRouter);
 app.use("/schedule", scheduleRouter);
+app.use("/group", groupsRouter);
 
 // TODO: move port to .env
 app.listen(3001, function(){
