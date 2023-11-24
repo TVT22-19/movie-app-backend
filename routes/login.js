@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const pgPool = require("../connection");
 
-// LOGIN
 router.post("/", async (req, res) => {
     const { username, password } = req.body;
 
@@ -11,12 +10,10 @@ router.post("/", async (req, res) => {
         return res.status(400).json({ error: "Username and password are required" });
     }
 
-    const client = await pgPool.connect(); // Используем pgPool вместо pool
-
     try {
         // Search user
         const userQuery = "SELECT * FROM users WHERE username = $1";
-        const userResult = await client.query(userQuery, [username]);
+        const userResult = await pgPool.query(userQuery, [username]);
         const user = userResult.rows[0];
 
         if (!user) {
@@ -33,8 +30,6 @@ router.post("/", async (req, res) => {
     } catch (error) {
         console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
-    } finally {
-        client.release();
     }
 });
 

@@ -9,7 +9,6 @@ const hashPassword = async (password) => {
     return bcrypt.hash(password, saltRounds);
 };
 
-// REGISTRATION
 router.post("/", async (req, res) => {
     const { username, password } = req.body;
 
@@ -17,12 +16,10 @@ router.post("/", async (req, res) => {
         return res.status(400).json({ error: "Username and password are required" });
     }
 
-    const client = await pool.connect();
-
     try {
-        // Checking if user exist
+        // Checking if user exists
         const userExistsQuery = "SELECT * FROM users WHERE username = $1";
-        const userExistsResult = await client.query(userExistsQuery, [username]);
+        const userExistsResult = await pgPool.query(userExistsQuery, [username]);
 
         if (userExistsResult.rows.length > 0) {
             return res.status(400).json({ error: "Username already exists" });
@@ -32,16 +29,15 @@ router.post("/", async (req, res) => {
 
         // Added new user
         const addUserQuery = "INSERT INTO users(username, password) VALUES ($1, $2) RETURNING *";
-        const addUserResult = await client.query(addUserQuery, [username, hashedPassword]);
+        const addUserResult = await pgPool.query(addUserQuery, [username, hashedPassword]);
         const newUser = addUserResult.rows[0];
 
         res.status(201).json({ message: "User created successfully", user: newUser });
     } catch (error) {
         console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
-    } finally {
-        client.release();
     }
 });
 
 module.exports = router;
+

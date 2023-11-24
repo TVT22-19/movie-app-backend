@@ -8,6 +8,9 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const loginRouter = require("./routes/login");
+const deleteRouter = require('./routes/delete');
+
+
 
 const app = express();
 
@@ -23,6 +26,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 app.use("/login", loginRouter);
+app.use('/delete', deleteRouter);
 
 app.listen(8080, function(){
     console.log("Server running, maybe...");
