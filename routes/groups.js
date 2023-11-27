@@ -3,68 +3,99 @@
 const express = require("express");
 const router = express.Router();
 const pgPool = require("../connection");
-const {getGroup, addGroup, addGroupPost, deleteGroup, addGroupMember } = require('../database_tools/group_db');
+const { getGroup, getAllGroups, addGroup, addGroupPost, deleteGroup, addGroupMember, getGroupMembers, deleteGroupMember } = require('../database_tools/group_db');
+//GET LIST OF ALL GROUPS => group id, group name only)
 
-// RETRIEVE GROUP INFO
+
+router.get("/allgroups", async (req, res) => {
+    try {
+        const result = await getAllGroups();
+        res.status(201).json({ result });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+// RETRIEVE GROUP INFO (for specified group)
 // param: group id =>  name, description, avatar url
 
 router.get("/:groupId", async (req, res) => {
     try {
         const groupId = req.params.groupId;
         const result = await getGroup(groupId);
-        res.status(201).json({result});
+        res.status(201).json({ result });
     } catch (error) {
         console.log(error);
-        res.status(500).json({error: 'Internal Server Error'});
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
+
 // ADD GROUP
 // gname, gdesc, gavatar 
-router.post('/add', async (req,res) => {
-    const client = await pgPool.connect(); 
+router.post('/add', async (req, res) => {
+    const client = await pgPool.connect();
 
-    try{
+    try {
         const result = await addGroup(req.body.gname, req.body.gdesc, req.body.gavatar);
         res.status(201).json({ message: "Group created successfully", result });
 
-    } catch (error){
+    } catch (error) {
         console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     } finally {
-        client.release(); 
+        client.release();
     }
 });
 
 //DELETE GROUP
 //currently lacks checking for if the group even exists
 //param: groupId
-router.delete('/delete/:groupId', async (req,res) => {
-    const client = await pgPool.connect(); 
-    try{
+router.delete('/delete/:groupId', async (req, res) => {
+    const client = await pgPool.connect();
+    try {
         const result = await deleteGroup(req.params.groupId);
-        res.status(201).json({ result, message: 'group deleted'});
-    } catch (error){
+        res.status(201).json({ result, message: 'group deleted' });
+    } catch (error) {
         console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     } finally {
-        client.release(); 
+        client.release();
     }
 });
 
 
 // ADD USER TO GROUP (done after request is accepted)
 // groupid, userid
-router.post('/addmember', async (req,res) => {
-    const client = await pgPool.connect(); 
-    try{
+router.post('/addmember', async (req, res) => {
+    const client = await pgPool.connect();
+    try {
         const result = await addGroupMember(req.body.userid, req.body.groupid);
         res.status(201).json({ result });
-    } catch (error){
+    } catch (error) {
         console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     } finally {
-        client.release(); 
+        client.release();
+    }
+});
+
+
+// DELETE USER FROM GROUP (done after request is accepted)
+// currently gives no separate error if user-group connection wasn't found 
+// groupid, userid
+router.delete('/deletemember/:userId/from/:groupId', async (req, res) => {
+    const client = await pgPool.connect();
+    try {
+        const result = await deleteGroupMember(req.params.userId, req.params.groupId);
+        res.status(201).json({ result });
+    } catch (error) {
+        console.error("Error while interacting with the database:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    } finally {
+        client.release();
     }
 });
 
@@ -73,16 +104,16 @@ router.post('/addmember', async (req,res) => {
 //not functional yet
 // ADD POST TO GROUP
 // groupid, userid, postcontent.. etc
-router.post('/post', async (req, res)=>{
+router.post('/post', async (req, res) => {
     try {
         const result = await addGroupPost(req.body.groupid, req.body.userid, req.body.postcontent);
-        if(result){ 
+        if (result) {
             res.status(200).send('Post added to group ' + groupid);
-        }else{
-            res.status(404).send('Group ' + req.body.groupid + ' not found');    
+        } else {
+            res.status(404).send('Group ' + req.body.groupid + ' not found');
         }
     } catch (error) {
-        res.status(401).json({error: error.message});
+        res.status(401).json({ error: error.message });
     }
 });
 
