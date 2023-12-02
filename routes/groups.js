@@ -2,10 +2,10 @@
 
 const express = require("express");
 const router = express.Router();
-const pgPool = require("../connection");
+const pgPool = require("../database_tools/connection");
 const { getGroup, getAllGroups, addGroup, addGroupPost, deleteGroup, addGroupMember, getGroupMembers, deleteGroupMember } = require('../database_tools/group_db');
-//GET LIST OF ALL GROUPS => group id, group name only)
 
+//GET LIST OF ALL GROUPS => group id, group name only)
 
 router.get("/allgroups", async (req, res) => {
     try {
@@ -37,7 +37,9 @@ router.get("/:groupId", async (req, res) => {
     }
 });
 
-//currently only returns member ids as an array
+
+// RETRIEVE GROUP MEMBERS' BASIC INFO
+//group id -> gets user ids, usernames and avatars in an array!
 router.get("/members/:groupId", async (req, res) => {
     try {
         const groupId = req.params.groupId;
@@ -45,7 +47,8 @@ router.get("/members/:groupId", async (req, res) => {
         if (!result){
             res.status(404).json({ error: 'Group not found' });
         }else{
-            res.status(201).json(result);
+            const resultArray = Array.isArray(result) ? result : [result]; // ensuring that result is an array
+            res.status(201).json(resultArray);
         }
         
     } catch (error) {

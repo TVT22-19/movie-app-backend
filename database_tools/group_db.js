@@ -1,4 +1,4 @@
-const pgPool = require("../connection");
+const pgPool = require("./connection");
 
 const sql = {
     GET_GROUP: 'SELECT name, description, avatar_url FROM groups WHERE id=$1',
@@ -7,6 +7,8 @@ const sql = {
     DELETE_GROUP: 'DELETE FROM groups WHERE id=$1',
     ADD_GROUP_POST: '', //table for posts not created yet
     GET_GROUP_MEMBERS: 'SELECT user_id FROM user_groups WHERE group_id=$1',
+    GET_GROUP_MEMBERS: 'SELECT user_id FROM user_groups WHERE group_id=$1',
+    GET_MEMBER_INFO: 'SELECT username, avatar_url FROM users WHERE id=$1',
     ADD_GROUP_MEMBER: 'INSERT INTO user_groups (user_id, group_id) VALUES ($1, $2)',
     DELETE_GROUP_MEMBER: 'DELETE FROM user_groups WHERE user_id=$1 AND group_id=$2'
 }
@@ -30,14 +32,27 @@ async function getAllGroups() {
     }
 }
 
-//returns user ids as an array
+//returns (user) ids, usernames and avatars 
 async function getGroupMembers(groupId) {
 
     let result = await pgPool.query(sql.GET_GROUP_MEMBERS, [groupId]);
 
     if (result.rows.length > 0) {
-        const groupMembersArray = result.rows.map(item => item.user_id);
-        return groupMembersArray;
+        const groupMembersArray = result.rows.map(item => item.user_id); //array of just user ids e.g. [1, 2, 3]
+        const memberInfoPromises = groupMembersArray.map(async userId => {
+            const memberInfoResult = await pgPool.query(sql.GET_MEMBER_INFO, [userId]);
+            const memberInfo = memberInfoResult.rows[0];
+            return {
+                id: userId,
+                username: memberInfo.username,
+                avatar: memberInfo.avatar_url,
+            };
+        });
+
+        // wait for all promises to resolve
+        const memberInfoArray = await Promise.all(memberInfoPromises);
+
+        return memberInfoArray;
     } else {
         return null;
     }
