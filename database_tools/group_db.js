@@ -1,10 +1,10 @@
 const pgPool = require("../connection");
 
 const sql = {
-    GET_GROUP: 'SELECT name, description, avatar_url FROM groups WHERE group_id=$1',
-    GET_ALL_GROUPS: 'SELECT group_id, name FROM groups',
+    GET_GROUP: 'SELECT name, description, avatar_url FROM groups WHERE id=$1',
+    GET_ALL_GROUPS: 'SELECT id, name FROM groups',
     ADD_GROUP: 'INSERT INTO groups (name, description, avatar_url) VALUES ($1, $2, $3)',
-    DELETE_GROUP: 'DELETE FROM groups WHERE group_id=$1',
+    DELETE_GROUP: 'DELETE FROM groups WHERE id=$1',
     ADD_GROUP_POST: '', //table for posts not created yet
     GET_GROUP_MEMBERS: 'SELECT user_id FROM user_groups WHERE group_id=$1',
     ADD_GROUP_MEMBER: 'INSERT INTO user_groups (user_id, group_id) VALUES ($1, $2)',

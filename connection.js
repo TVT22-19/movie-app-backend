@@ -12,8 +12,8 @@ const pgPool = new Pool({
     //ssl: true
 });
 
-//test
-pgPool.query('SELECT * FROM public."groups"', (err, result) => {
+
+pgPool.query('SELECT * FROM groups', (err, result) => {
     if (err) {
         console.error('Error connecting to the database:', err.message);
     } else {

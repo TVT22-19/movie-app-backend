@@ -37,6 +37,7 @@ router.get("/:groupId", async (req, res) => {
     }
 });
 
+//currently only returns member ids as an array
 router.get("/members/:groupId", async (req, res) => {
     try {
         const groupId = req.params.groupId;
