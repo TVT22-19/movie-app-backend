@@ -36,7 +36,7 @@ async function getGroupMembers(groupId) {
     let result = await pgPool.query(sql.GET_GROUP_MEMBERS, [groupId]);
 
     if (result.rows.length > 0) {
-        const groupMembersArray = result.map(item => item.user_id);
+        const groupMembersArray = result.rows.map(item => item.user_id);
         return groupMembersArray;
     } else {
         return null;

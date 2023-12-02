@@ -10,7 +10,7 @@ const { getGroup, getAllGroups, addGroup, addGroupPost, deleteGroup, addGroupMem
 router.get("/allgroups", async (req, res) => {
     try {
         const result = await getAllGroups();
-        res.status(201).json({ result });
+        res.status(201).json(result);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -19,13 +19,34 @@ router.get("/allgroups", async (req, res) => {
 
 
 // RETRIEVE GROUP INFO (for specified group)
-// param: group id =>  name, description, avatar url
+// param: group id =>  name, description, avatar_url
 
 router.get("/:groupId", async (req, res) => {
     try {
         const groupId = req.params.groupId;
         const result = await getGroup(groupId);
-        res.status(201).json({ result });
+        if (!result){
+            res.status(404).json({ error: 'Group not found' });
+        }else{
+            res.status(201).json(result);
+        }
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+router.get("/members/:groupId", async (req, res) => {
+    try {
+        const groupId = req.params.groupId;
+        const result = await getGroupMembers(groupId);
+        if (!result){
+            res.status(404).json({ error: 'Group not found' });
+        }else{
+            res.status(201).json(result);
+        }
+        
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -51,7 +72,8 @@ router.post('/add', async (req, res) => {
 });
 
 //DELETE GROUP
-//currently lacks checking for if the group even exists
+//currently no different message if group didn't exist in the first place.
+//NOT YET DELETING USER-GROUP CONNECTIONS FOR THAT GROUP - fix
 //param: groupId
 router.delete('/delete/:groupId', async (req, res) => {
     const client = await pgPool.connect();
@@ -73,7 +95,7 @@ router.post('/addmember', async (req, res) => {
     const client = await pgPool.connect();
     try {
         const result = await addGroupMember(req.body.userid, req.body.groupid);
-        res.status(201).json({ result });
+        res.status(201).json(result);
     } catch (error) {
         console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
@@ -90,7 +112,7 @@ router.delete('/deletemember/:userId/from/:groupId', async (req, res) => {
     const client = await pgPool.connect();
     try {
         const result = await deleteGroupMember(req.params.userId, req.params.groupId);
-        res.status(201).json({ result });
+        res.status(201).json(result);
     } catch (error) {
         console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });

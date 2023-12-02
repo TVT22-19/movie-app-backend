@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const cors = require('cors');
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -11,6 +12,7 @@ const groupsRouter = require("./routes/groups");
 
 
 const app = express();
+app.use(cors());
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -28,7 +30,7 @@ app.use("/group", groupsRouter);
 
 // TODO: move port to .env
 app.listen(3001, function(){
-    console.log("Server running, maybe...");
+    console.log("Backend server is running on port 3001");
 });
 
 module.exports = app;
