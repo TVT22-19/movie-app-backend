@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
         .then(data => {
             const parser = new xmlParser.XMLParser();
             const json = parser.parse(data);
-            const newsArticles = json.News.NewsArticle;
+            const newsArticles = json["News"]["NewsArticle"];
             res.send(newsArticles);
         }).catch(console.error);
 });
