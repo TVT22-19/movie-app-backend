@@ -4,8 +4,12 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require('cors');
 
+
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
+const loginRouter = require("./routes/login");
+const deleteRouter = require('./routes/delete');
 const newsRouter = require("./routes/news");
 const scheduleRouter = require("./routes/schedule");
 const groupsRouter = require("./routes/groups");
@@ -26,6 +30,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/auth", authRouter);
+app.use("/login", loginRouter);
+app.use('/delete', deleteRouter);
 app.use("/news", newsRouter);
 app.use("/schedule", scheduleRouter);
 app.use("/group", groupsRouter);
