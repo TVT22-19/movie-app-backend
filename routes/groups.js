@@ -59,12 +59,14 @@ router.get("/members/:groupId", async (req, res) => {
 
 
 // ADD GROUP
-// gname, gdesc, gavatar 
+// gname, gdesc, gavatar, owner 
+// issue: currently a non-existent owner can be added 
 router.post('/add', async (req, res) => {
     const client = await pgPool.connect();
+    const ownerId = parseInt(req.body.owner);
 
     try {
-        const result = await addGroup(req.body.gname, req.body.gdesc, req.body.gavatar);
+        const result = await addGroup(req.body.gname, req.body.gdesc, req.body.gavatar, ownerId);
         res.status(201).json({ message: "Group created successfully", result });
 
     } catch (error) {
@@ -77,7 +79,6 @@ router.post('/add', async (req, res) => {
 
 //DELETE GROUP
 //currently no different message if group didn't exist in the first place.
-//NOT YET DELETING USER-GROUP CONNECTIONS FOR THAT GROUP - fix
 //param: groupId
 router.delete('/delete/:groupId', async (req, res) => {
     const client = await pgPool.connect();
