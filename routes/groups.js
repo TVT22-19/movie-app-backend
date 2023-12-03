@@ -2,7 +2,7 @@
 
 const express = require("express");
 const router = express.Router();
-const pgPool = require("../database_tools/connection");
+const pgPool = require("../connection");
 const { getGroup, getAllGroups, addGroup, addGroupPost, deleteGroup, addGroupMember, getGroupMembers, deleteGroupMember } = require('../database_tools/group_db');
 
 //GET LIST OF ALL GROUPS => group id, group name only)

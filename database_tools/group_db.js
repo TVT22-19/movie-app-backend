@@ -1,4 +1,4 @@
-const pgPool = require("./connection");
+const pgPool = require("../connection");
 
 const sql = {
     GET_GROUP: 'SELECT name, description, avatar_url FROM groups WHERE id=$1',

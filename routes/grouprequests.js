@@ -1,7 +1,7 @@
 
 const express = require("express");
 const router = express.Router();
-const pgPool = require("../database_tools/connection");
+const pgPool = require("../connection");
 const {addRequest, deleteRequest, getOwnedGroups, getPendingRequests} = require('../database_tools/requests_db');
 const {addGroupMember} = require('../database_tools/group_db');
 

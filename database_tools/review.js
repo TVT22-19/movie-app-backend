@@ -1,4 +1,4 @@
-const pgPool = require("./connection");
+const pgPool = require("../connection");
 
 async function getReviews(){
     const result = await pgPool.query("SELECT * FROM reviews");
