@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { getPostsByGroupId, createPost } = require("../database_tools/groupPost");
+const { getPostsByGroupId, createPost, deletePostByUserId } = require("../database_tools/groupPost");
 
 router.get("/:groupID", async (req, res) => {
     console.log("Hello");
@@ -27,5 +27,18 @@ router.post("/", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+router.delete("/:userID", async (req, res) => {
+    if(!req.params.userID){
+        return res.status(400).json({ error: "userID required!" });
+    }
+    try{
+        const dbResponse = await deletePostByUserId(req.params.userID);
+        res.status(200).json({ message: "Post deleted successfully", database: dbResponse });
+    }catch(error){
+        console.error("Error with database connection");
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
 
 module.exports = router;
