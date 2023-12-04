@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const manifest = require('./../package.json');
+require('dotenv').config()
+
 
 /* GET home page. */
 router.get("/", (req, res) => {

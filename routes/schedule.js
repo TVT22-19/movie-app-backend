@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
         .then(data => {
             const parser = new xmlParser.XMLParser();
             const json = parser.parse(data);
-            const schedule = json.Schedule.Shows.Show;
+            const schedule = json["Schedule"]["Shows"]["Show"];
             res.send(schedule);
         }).catch(console.error);
 });
