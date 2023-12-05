@@ -16,6 +16,7 @@ const groupsRouter = require("./routes/groups");
 const requestsRouter = require("./routes/grouprequests");
 const reviewRouter = require("./routes/reviews");
 const groupPostRoter = require("./routes/group_posts");
+const moviedbRouter = require("./routes/moviedb");
 
 const app = express();
 app.use(cors());
@@ -39,6 +40,7 @@ app.use("/group", groupsRouter);
 app.use("/grouprequest", requestsRouter);
 app.use("/review", reviewRouter);
 app.use("/group-post", groupPostRoter);
+app.use("/moviedb", moviedbRouter);
 
 // TODO: move port to .env
 app.listen(3001, function(){
