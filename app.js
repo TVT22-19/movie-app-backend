@@ -9,6 +9,7 @@ const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const loginRouter = require("./routes/login");
 const deleteRouter = require('./routes/delete');
+const searchRouter = require('./routes/search');
 
 
 
@@ -27,6 +28,7 @@ app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 app.use("/login", loginRouter);
 app.use('/delete', deleteRouter);
+app.use('/search', searchRouter);
 
 app.listen(8080, function(){
     console.log("Server running, maybe...");
