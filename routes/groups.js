@@ -128,20 +128,4 @@ router.delete('/deletemember/:userId/from/:groupId', async (req, res) => {
 
 
 
-//not functional yet
-// ADD POST TO GROUP
-// groupid, userid, postcontent.. etc
-router.post('/post', async (req, res) => {
-    try {
-        const result = await addGroupPost(req.body.groupid, req.body.userid, req.body.postcontent);
-        if (result) {
-            res.status(200).send('Post added to group ' + groupid);
-        } else {
-            res.status(404).send('Group ' + req.body.groupid + ' not found');
-        }
-    } catch (error) {
-        res.status(401).json({ error: error.message });
-    }
-});
-
 module.exports = router;
