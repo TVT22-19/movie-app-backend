@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const pgPool = require("../connection");
-const { getGroup, getAllGroups, addGroup, addGroupPost, deleteGroup, addGroupMember, getGroupMembers, deleteGroupMember } = require('../database_tools/group_db');
+const { getGroup, getAllGroups, addGroup, addGroupPost, deleteGroup, addGroupMember, getGroupMembers, deleteGroupMember, userIsMember } = require('../database_tools/group_db');
 
 //GET LIST OF ALL GROUPS => group id, group name only)
 
@@ -125,6 +125,20 @@ router.delete('/deletemember/:userId/from/:groupId', async (req, res) => {
         client.release();
     }
 });
+
+router.get("/is-member/:userID/:groupID", async (req, res) => {
+    if(!req.params.userID || !req.params.groupID){
+        return res.status(400).json({ error: "User ID and Group ID is required" });
+    }
+
+    try{
+        const result = await userIsMember(req.params.userID, req.params.groupID);
+        res.send(result);
+    }catch(error){
+        console.error("Error while interacting with the database:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
 
 
 
