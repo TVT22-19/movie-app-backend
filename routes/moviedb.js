@@ -37,6 +37,10 @@ router.get("/search/:query", async (req, res) => {
         }).catch(console.error);
 });
 
+router.get("/pic/:picID", async (req, res) => {
+    res.send({ picture_url: "https://image.tmdb.org/t/p/original/" + req.params.picID });
+})
+
 /* Image URLs:
     https://image.tmdb.org/t/p/<SIZE>/<IMG_ID>
     Sizes can be found from "https://api.themoviedb.org/3/configuration":
