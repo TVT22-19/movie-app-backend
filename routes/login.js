@@ -4,6 +4,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const pgPool = require("../connection");
 
+// Получение секретного ключа из переменной окружения
+const jwtSecret = process.env.JWT_SECRET || "default-secret-key";
+
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
@@ -27,8 +30,8 @@ router.post("/login", async (req, res) => {
             return res.status(401).json({ error: "Invalid username or password" });
         }
 
-        // creating jwt token with user info
-        const token = jwt.sign({ userId: user.id, username: user.username }, "jwt key");
+        // Creating jwt token
+        const token = jwt.sign({ userId: user.id, username: user.username }, jwtSecret);
 
         res.status(200).json({ message: "Login successful", user: user, token: token });
     } catch (error) {
