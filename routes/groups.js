@@ -2,8 +2,8 @@
 
 const express = require("express");
 const router = express.Router();
-const pgPool = require("../database_tools/connection");
-const { getGroup, getAllGroups, addGroup, addGroupPost, deleteGroup, addGroupMember, getGroupMembers, deleteGroupMember } = require('../database_tools/group_db');
+const pgPool = require("../connection");
+const { getGroup, getAllGroups, addGroup, addGroupPost, deleteGroup, addGroupMember, getGroupMembers, deleteGroupMember, userIsMember } = require('../database_tools/group_db');
 
 //GET LIST OF ALL GROUPS => group id, group name only)
 
@@ -126,22 +126,20 @@ router.delete('/deletemember/:userId/from/:groupId', async (req, res) => {
     }
 });
 
-
-
-//not functional yet
-// ADD POST TO GROUP
-// groupid, userid, postcontent.. etc
-router.post('/post', async (req, res) => {
-    try {
-        const result = await addGroupPost(req.body.groupid, req.body.userid, req.body.postcontent);
-        if (result) {
-            res.status(200).send('Post added to group ' + groupid);
-        } else {
-            res.status(404).send('Group ' + req.body.groupid + ' not found');
-        }
-    } catch (error) {
-        res.status(401).json({ error: error.message });
+router.get("/is-member/:userID/:groupID", async (req, res) => {
+    if(!req.params.userID || !req.params.groupID){
+        return res.status(400).json({ error: "User ID and Group ID is required" });
     }
-});
+
+    try{
+        const result = await userIsMember(req.params.userID, req.params.groupID);
+        res.send(result);
+    }catch(error){
+        console.error("Error while interacting with the database:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
+
+
 
 module.exports = router;

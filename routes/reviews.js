@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { getReviews, getReviewById, addReview } = require("../database_tools/review");
+const { getReviews, getReviewById, addReview, deleteReview } = require("../database_tools/review");
 
 /* GET reviews listing. */
 router.get("/", async (req, res) => {
@@ -39,11 +39,25 @@ router.post("/", async (req, res) => {
 
     try{
         const dbResponse = await addReview(userID, movieID, content);
-        res.status(201).json({ message: "Review added succesfully", database: dbResponse });
+        res.status(200).json({ message: "Review added succesfully", database: dbResponse });
     }catch(error){
         console.error("Error with database connection");
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+router.delete("/:reviewID", async (req, res) => {
+    if(!req.params.reviewID){
+        return res.status(400).json({ error: "Review ID required" });
+    }
+
+    try{
+        const dbResponse = await deleteReview(req.params.reviewID);
+        res.status(200).json({ message: "Review deleted successfully", database: dbResponse });
+    }catch(error){
+        console.error("Error with database connection");
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
 
 module.exports = router;
