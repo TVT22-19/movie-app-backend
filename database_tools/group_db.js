@@ -67,12 +67,6 @@ async function addGroup(groupName, groupDescription, groupAvatar, groupOwner) {
 
 }
 
-//not functional yet
-async function addGroupPost(groupId, postContent) {
-    const addPostResult = await pgPool.query(sql.ADD_GROUP_POST, [groupId, userId, postContent]);
-    return addPostResult.rows[0];
-}
-
 
 async function addGroupMember(userId, groupId) {
     //is it necessary to check if there are any duplicate user-group connections?
@@ -110,4 +104,6 @@ async function userIsOwner(userID, groupID){
 }
 
 
-module.exports = { getGroup, getAllGroups, addGroup, addGroupPost, getGroupMembers, addGroupMember, deleteGroupMember, deleteGroup, userIsMember, userIsOwner };
+
+
+module.exports = { getGroup, getAllGroups, addGroup, getGroupMembers, addGroupMember, deleteGroupMember, deleteGroup, userIsMember, userIsOwner };
