@@ -4,7 +4,6 @@ const router = express.Router();
 const { getPostsByGroupId, createPost, deletePostByUserId } = require("../database_tools/groupPost");
 
 router.get("/:groupID", async (req, res) => {
-    console.log("Hello");
     try{
         const groupPosts = await getPostsByGroupId(req.params.groupID);
         res.send(groupPosts);
