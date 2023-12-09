@@ -10,7 +10,7 @@ const { getGroup, getAllGroups, addGroup, addGroupPost, deleteGroup, addGroupMem
 router.get("/allgroups", async (req, res) => {
     try {
         const result = await getAllGroups();
-        res.status(201).json(result);
+        res.status(200).json(result);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -28,7 +28,7 @@ router.get("/:groupId", async (req, res) => {
         if (!result){
             res.status(404).json({ error: 'Group not found' });
         }else{
-            res.status(201).json(result);
+            res.status(200).json(result);
         }
         
     } catch (error) {
@@ -48,7 +48,7 @@ router.get("/members/:groupId", async (req, res) => {
             res.status(404).json({ error: 'Group not found' });
         }else{
             const resultArray = Array.isArray(result) ? result : [result]; // ensuring that result is an array
-            res.status(201).json(resultArray);
+            res.status(200).json(resultArray);
         }
         
     } catch (error) {
@@ -84,7 +84,7 @@ router.delete('/delete/:groupId', async (req, res) => {
     const client = await pgPool.connect();
     try {
         const result = await deleteGroup(req.params.groupId);
-        res.status(201).json({ result, message: 'group deleted' });
+        res.status(200).json({ result, message: 'group deleted' });
     } catch (error) {
         console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
@@ -117,7 +117,7 @@ router.delete('/deletemember/:userId/from/:groupId', async (req, res) => {
     const client = await pgPool.connect();
     try {
         const result = await deleteGroupMember(req.params.userId, req.params.groupId);
-        res.status(201).json(result);
+        res.status(200).json(result);
     } catch (error) {
         console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
