@@ -28,8 +28,8 @@ router.get("/:movieID", async (req, res) => {
         }).catch(console.error);
 });
 
-// Search the movie database
-router.get("/search/:query", async (req, res) => {
+// Search movies in the movie database
+router.get("/search/movie/:query", async (req, res) => {
     fetch("https://api.themoviedb.org/3/search/movie?query=" + req.params.query, options)
         .then(resp => resp.json())
         .then(data => {
@@ -37,6 +37,16 @@ router.get("/search/:query", async (req, res) => {
         }).catch(console.error);
 });
 
+// Search tv shows in the movie database
+router.get("/search/tv/:query", async (req, res) => {
+    fetch("https://api.themoviedb.org/3/search/tv?query=" + req.params.query, options)
+        .then(resp => resp.json())
+        .then(data => {
+            res.send(data)
+        }).catch(console.error);
+})
+
+// Returns full picture URL in json
 router.get("/pic/:picID", async (req, res) => {
     res.send({ picture_url: "https://image.tmdb.org/t/p/original/" + req.params.picID });
 })
