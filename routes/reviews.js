@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { getReviews, getReviewById, addReview, deleteReview, getReviewByMovieId } = require("../database_tools/review");
+const { getReviews, getReviewById, addReview, deleteReview, getReviewByMovieId, getReviewsByUserId } = require("../database_tools/review");
 
 /* GET reviews listing. */
 router.get("/", async (req, res) => {
-    console.log(new Date());
     try{
         const reviews = await getReviews();
         res.send(reviews);
@@ -69,6 +68,24 @@ router.delete("/:reviewID", async (req, res) => {
     try{
         const dbResponse = await deleteReview(req.params.reviewID);
         res.status(200).json({ message: "Review deleted successfully", database: dbResponse });
+    }catch(error){
+        console.error("Error with database connection");
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
+
+router.get("/userid/:userID", async (req, res) => {
+    if(!req.params.userID){
+        return res.status(400).json({ error: "User ID required" });
+    }
+
+    try{
+        const reviews = await getReviewsByUserId(req.params.userID);
+        reviews.forEach(element => {
+            element.rating = element.rating.toString().trim()
+        });
+        console.log(reviews[0].rating)
+        res.send(reviews);
     }catch(error){
         console.error("Error with database connection");
         res.status(500).json({ error: "Internal Server Error" });
