@@ -9,6 +9,10 @@ async function getReviewById(id){
     const result = await pgPool.query("SELECT * FROM reviews WHERE id=$1", [id]);
     return result.rows;
 }
+async function getReviewByMovieId(id){
+    const result = await pgPool.query("SELECT * FROM reviews WHERE movie_id=$1", [id]);
+    return result.rows;
+}
 
 async function addReview(userID, movieID, content){
     const query = "INSERT INTO reviews(user_id, movie_id, content) VALUES($1, $2, $3)";
@@ -20,4 +24,4 @@ async function deleteReview(reviewID){
     return await pgPool.query(query, [reviewID]);
 }
 
-module.exports = { getReviews, getReviewById, addReview, deleteReview };
+module.exports = { getReviews, getReviewById, addReview, deleteReview, getReviewByMovieId };
