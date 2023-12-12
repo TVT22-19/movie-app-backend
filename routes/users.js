@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const { getUsers, getUserById, updateUserById } = require("../database_tools/user");
+const { getUsers, getUserById, updateUserById, deleteUserById } = require("../database_tools/user");
 
 const jwtSecret = process.env.JWT_SECRET || "default-secret-key";
 
@@ -42,6 +42,16 @@ router.post("/update", async (req, res) => {
     try{
         const dbResponse = await updateUserById(username, hashedPassword, age, firstname, lastname, avatar_url, id);
         res.status(200).json({ message: "Update successful", username: username, token: token });
+    }catch(error){
+        console.error("Error with database connection");
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
+
+router.delete("/delete/:id", async (req, res) => {
+    try{
+        const dbResponse = await deleteUserById(req.params.id);
+        res.status(200).json({ message: "User deleted successfully", database: dbResponse })
     }catch(error){
         console.error("Error with database connection");
         res.status(500).json({ error: "Internal Server Error" });

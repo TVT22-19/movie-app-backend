@@ -16,4 +16,9 @@ async function updateUserById(username, password, age, firstname, lastname, avat
     return result.rows;
 }
 
-module.exports = { getUsers, getUserById, updateUserById };
+async function deleteUserById(id){
+    const result = await pgPool.query("DELETE FROM users WHERE id = $1", [id]);
+    return result.rows;
+}
+
+module.exports = { getUsers, getUserById, updateUserById, deleteUserById };
