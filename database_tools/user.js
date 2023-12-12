@@ -10,4 +10,10 @@ async function getUserById(id){
     return result.rows[0];
 }
 
-module.exports = { getUsers, getUserById };
+async function updateUserById(username, password, age, firstname, lastname, avatar_url, id){
+    const result = await pgPool.query("UPDATE users SET (username, password, age, firstname, lastname, avatar_url) = ($1, $2, $3, $4, $5, $6) WHERE id = $7",
+                                        [username, password, age, firstname, lastname, avatar_url, id]);
+    return result.rows;
+}
+
+module.exports = { getUsers, getUserById, updateUserById };
