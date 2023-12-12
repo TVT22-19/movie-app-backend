@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const { getUsers, getUserById, updateUserById } = require("../database_tools/user");
+
+const jwtSecret = process.env.JWT_SECRET || "default-secret-key";
 
 /* GET users listing. */
 router.get("/", async (req, res) => {
@@ -31,10 +35,13 @@ router.get("/:id", async (req, res) => {
 
 router.post("/update", async (req, res) => {
     const {username, password, age, firstname, lastname, avatar_url, id} = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const token = jwt.sign({userId: id, username: username }, jwtSecret);
 
     try{
-        const dbResponse = await updateUserById(username, password, age, firstname, lastname, avatar_url, id);
-        res.send(dbResponse)
+        const dbResponse = await updateUserById(username, hashedPassword, age, firstname, lastname, avatar_url, id);
+        res.status(200).json({ message: "Update successful", username: username, token: token });
     }catch(error){
         console.error("Error with database connection");
         res.status(500).json({ error: "Internal Server Error" });
