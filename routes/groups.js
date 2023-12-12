@@ -1,9 +1,9 @@
-///work in progress :)
+
 
 const express = require("express");
 const router = express.Router();
 const pgPool = require("../connection");
-const { getGroup, getAllGroups, addGroup, addGroupPost, deleteGroup, addGroupMember, getGroupMembers, deleteGroupMember, userIsMember, userIsOwner } = require('../database_tools/group_db');
+const { getGroup, getAllGroups, addGroup, deleteGroup, addGroupMember, getGroupMembers, deleteGroupMember, userIsMember, userIsOwner, getGroupsByUser } = require('../database_tools/group_db');
 
 //GET LIST OF ALL GROUPS => group id, group name only)
 
@@ -157,6 +157,25 @@ router.get("/is-owner/:userID/:groupID", async (req, res) => {
     }
 })
 
+
+// RETRIEVE GROUPS USER IS PART OF
+//user id -> 
+router.get("/groupsbyuser/:userId", async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const result = await getGroupsByUser(userId);
+        if (!result){
+            res.status(204).json({ error: 'No Groups Found' });
+        }else{
+            const resultArray = Array.isArray(result) ? result : [result]; // ensuring that result is an array
+            res.status(200).json(resultArray);
+        }
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 
 

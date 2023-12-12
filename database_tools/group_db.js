@@ -12,7 +12,8 @@ const sql = {
     ADD_GROUP_MEMBER: 'INSERT INTO user_groups (user_id, group_id) VALUES ($1, $2)',
     DELETE_GROUP_MEMBER: 'DELETE FROM user_groups WHERE user_id=$1 AND group_id=$2',
     USER_IS_MEMBER: "SELECT * FROM user_groups WHERE user_id = $1 AND group_id = $2",
-    USER_IS_OWNER: "SELECT * FROM groups WHERE owner_id = $1 AND id = $2"
+    USER_IS_OWNER: "SELECT * FROM groups WHERE owner_id = $1 AND id = $2",
+    GET_GROUPS_BY_USER: "SELECT * FROM user_groups WHERE user_id = $1"
 }
 
 
@@ -20,6 +21,14 @@ async function getGroup(groupId) {
     let result = await pgPool.query(sql.GET_GROUP, [groupId]);
     if (result.rows.length > 0) {
         return result.rows[0];
+    } else {
+        return null;
+    }
+}
+async function getGroupsByUser(userId) {
+    let result = await pgPool.query(sql.GET_GROUPS_BY_USER, [userId]);
+    if (result.rows.length > 0) {
+        return result.rows;
     } else {
         return null;
     }
@@ -106,4 +115,4 @@ async function userIsOwner(userID, groupID){
 
 
 
-module.exports = { getGroup, getAllGroups, addGroup, getGroupMembers, addGroupMember, deleteGroupMember, deleteGroup, userIsMember, userIsOwner };
+module.exports = { getGroup, getAllGroups, addGroup, getGroupMembers, addGroupMember, deleteGroupMember, deleteGroup, userIsMember, userIsOwner, getGroupsByUser };
