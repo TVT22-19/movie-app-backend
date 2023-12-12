@@ -14,9 +14,9 @@ async function getReviewByMovieId(id){
     return result.rows;
 }
 
-async function addReview(userID, movieID, content){
-    const query = "INSERT INTO reviews(user_id, movie_id, content) VALUES($1, $2, $3)";
-    return await pgPool.query(query, [userID, movieID, content]);
+async function addReview(userID, movieID, content, rating){
+    const query = "INSERT INTO reviews(user_id, movie_id, content, rating) VALUES($1, $2, $3, $4)";
+    return await pgPool.query(query, [userID, movieID, content, rating]);
 }
 
 async function deleteReview(reviewID){
