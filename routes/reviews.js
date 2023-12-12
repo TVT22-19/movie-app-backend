@@ -81,10 +81,15 @@ router.get("/userid/:userID", async (req, res) => {
 
     try{
         const reviews = await getReviewsByUserId(req.params.userID);
+        if(reviews.length < 1){
+            return res.send({})
+        }
+        /*  OBSOLETE --- Used to convert byte rating to string
         reviews.forEach(element => {
             element.rating = element.rating.toString().trim()
         });
         console.log(reviews[0].rating)
+        */
         res.send(reviews);
     }catch(error){
         console.error("Error with database connection");
