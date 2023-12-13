@@ -167,6 +167,77 @@ Remove a user from a group.
 - Status Code: `500 Internal Server Error`
   - Content: `{ "error": "Internal Server Error" }`
 
+
+
+## 1. Check if Member
+
+### Endpoint: `GET /is-member/:userID/:groupID`
+
+Check if a user is a member of a group.
+
+#### Request:
+
+- Method: `GET`
+- URL: `/is-member/:userID/:groupID`
+
+#### Response:
+
+- Status Code: `200 OK`
+  - Content: Boolean indicating whether the user is a member.
+
+- Status Code: `400 Bad Request`
+  - Content: `{ "error": "User ID and Group ID are required" }`
+
+- Status Code: `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 2. Check if Owner
+
+### Endpoint: `GET /is-owner/:userID/:groupID`
+
+Check if a user is the owner of a group.
+
+#### Request:
+
+- Method: `GET`
+- URL: `/is-owner/:userID/:groupID`
+
+#### Response:
+
+- Status Code: `200 OK`
+  - Content: Boolean indicating whether the user is the owner.
+
+- Status Code: `400 Bad Request`
+  - Content: `{ "error": "User ID and Group ID are required" }`
+
+- Status Code: `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 3. Retrieve Groups User Is Part Of
+
+### Endpoint: `GET /groupsbyuser/:userId`
+
+Retrieve the groups that a user is a part of.
+
+#### Request:
+
+- Method: `GET`
+- URL: `/groupsbyuser/:userId`
+
+#### Response:
+
+- Status Code: `200 OK`
+  - Content: Array of group objects, each containing:
+    - `name`: Name of the group.
+    - `description`: Description of the group.
+    - `avatar_url`: URL of the group's avatar.
+
+- Status Code: `204 No Content`
+  - Content: `{ "error": "No Groups Found" }`
+
+- Status Code: `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
 # GROUP JOIN REQUESTS
 
 Endpoints for managing join requests in the application.
