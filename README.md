@@ -169,7 +169,7 @@ Remove a user from a group.
 
 
 
-## 1. Check if Member
+## 8. Check if Member
 
 ### Endpoint: `GET /is-member/:userID/:groupID`
 
@@ -191,7 +191,7 @@ Check if a user is a member of a group.
 - Status Code: `500 Internal Server Error`
   - Content: `{ "error": "Internal Server Error" }`
 
-## 2. Check if Owner
+## 9. Check if Owner
 
 ### Endpoint: `GET /is-owner/:userID/:groupID`
 
@@ -213,7 +213,7 @@ Check if a user is the owner of a group.
 - Status Code: `500 Internal Server Error`
   - Content: `{ "error": "Internal Server Error" }`
 
-## 3. Retrieve Groups User Is Part Of
+## 10. Retrieve Groups User Is Part Of
 
 ### Endpoint: `GET /groupsbyuser/:userId`
 
@@ -227,10 +227,9 @@ Retrieve the groups that a user is a part of.
 #### Response:
 
 - Status Code: `200 OK`
-  - Content: Array of group objects, each containing:
-    - `name`: Name of the group.
-    - `description`: Description of the group.
-    - `avatar_url`: URL of the group's avatar.
+  - Content: Array of group-user connections, each containing:
+    - `group_id`: Group ID.
+    - `user_id`: Group ID.
 
 - Status Code: `204 No Content`
   - Content: `{ "error": "No Groups Found" }`
