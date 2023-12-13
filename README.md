@@ -1,49 +1,79 @@
-# Table of Contents
+### Table of Contents
 
-1. [movie-app-backend](#movie-app-backend)
+<details>
+<summary><strong>1. movie-app-backend</strong></summary>
+
    - [REST API documentation](#rest-api-documentation)
-   
-2. [GROUPS](#groups)
-   - [1. Get List of All Groups](#1-get-list-of-all-groups)
+
+</details>
+
+<details>
+<summary><strong>2. GROUPS</strong></summary>
+
+   - [1. Get All Groups](#1-get-list-of-all-groups)
    - [2. Retrieve Group Information](#2-retrieve-group-information)
-   - [3. Retrieve Group Members' Basic Info](#3-retrieve-group-members-basic-info)
+   - [3. Retrieve Group Members](#3-retrieve-group-members-basic-info)
    - [4. Add Group](#4-add-group)
    - [5. Delete Group](#5-delete-group)
    - [6. Add User to Group](#6-add-user-to-group)
    - [7. Delete User from Group](#7-delete-user-from-group)
    - [8. Check if Member](#8-check-if-member)
    - [9. Check if Owner](#9-check-if-owner)
-   - [10. Retrieve Groups User Is Part Of](#10-retrieve-groups-user-is-part-of)
-   
-3. [GROUP JOIN REQUESTS](#group-join-requests)
+   - [10. Retrieve User's Groups](#10-retrieve-groups-user-is-part-of)
+
+</details>
+
+<details>
+<summary><strong>3. GROUP JOIN REQUESTS</strong></summary>
+
    - [1. Get Pending Requests](#1-get-pending-requests)
-   - [2. Add Group Join Request](#2-add-group-join-request)
-   - [3. Request Response: Ignore or Add Member](#3-request-response-ignore-or-add-member)
-   
-4. [USER](#user)
-   - [1. Get List of All Users](#1-get-list-of-all-users)
-   - [2. Get user by ID](#2-get-user-by-id)
-   - [3. Update user information](#3-update-user-information)
-   - [4. Delete user](#4-delete-user)
-   
-5. [REVIEW](#review)
-   - [1. Get all reviews](#1-get-all-reviews)
-   - [2. Get review by ID](#2-get-review-by-id)
-   - [3. Get reviews by movie ID](#3-get-reviews-by-movie-id)
-   - [4. Add review](#4-add-review)
-   - [5. Delete review](#5-delete-review)
-   - [6. Get reviews by user ID](#6-get-reviews-by-user-id)
-   
-6. [MOVIEDB](#moviedb)
-   - [1. Get genres](#1-get-genres)
-   - [2. Get movie details with ID](#2-get-movie-details-with-id)
-   - [3. Search movies](#3-search-movies)
-   - [4. Search TV series](#4-search-tv-series)
-   - [5. Generate full URL for movie posters](#5-generate-full-url-for-movie-posters)
-   
-7. [AUTH](#auth)
+   - [2. Add Join Request](#2-add-group-join-request)
+   - [3. Respond to Request](#3-request-response-ignore-or-add-member)
+
+</details>
+
+<details>
+<summary><strong>4. USER</strong></summary>
+
+   - [1. Get All Users](#1-get-list-of-all-users)
+   - [2. Get User by ID](#2-get-user-by-id)
+   - [3. Update User Information](#3-update-user-information)
+   - [4. Delete User](#4-delete-user)
+
+</details>
+
+<details>
+<summary><strong>5. REVIEW</strong></summary>
+
+   - [1. Get All Reviews](#1-get-all-reviews)
+   - [2. Get Review by ID](#2-get-review-by-id)
+   - [3. Get Reviews by Movie ID](#3-get-reviews-by-movie-id)
+   - [4. Add Review](#4-add-review)
+   - [5. Delete Review](#5-delete-review)
+   - [6. Get Reviews by User ID](#6-get-reviews-by-user-id)
+
+</details>
+
+<details>
+<summary><strong>6. MOVIEDB</strong></summary>
+
+   - [1. Get Genres](#1-get-genres)
+   - [2. Get Movie Details by ID](#2-get-movie-details-with-id)
+   - [3. Search Movies](#3-search-movies)
+   - [4. Search TV Series](#4-search-tv-series)
+   - [5. Generate Poster URL](#5-generate-full-url-for-movie-posters)
+
+</details>
+
+<details>
+<summary><strong>7. AUTH</strong></summary>
+
    - [1. Login](#1-login)
    - [2. Register](#2-register)
+
+</details>
+
+
 
 
 # movie-app-backend
