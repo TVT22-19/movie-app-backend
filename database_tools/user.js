@@ -6,7 +6,7 @@ async function getUsers(){
 }
 
 async function getUserById(id){
-    const result = await pgPool.query("SELECT * FROM users WHERE id=$1", [id]);
+    const result = await pgPool.query("SELECT id, username, registration_date, age, firstname, lastname, avatar_url FROM users WHERE id=$1", [id]);
     return result.rows[0];
 }
 
