@@ -49,6 +49,8 @@ router.post("/update", async (req, res) => {
 })
 
 router.delete("/delete/:id", async (req, res) => {
+    if(!req.params.id) return res.status(400).json({ error: "User ID is required" });
+    
     try{
         const dbResponse = await deleteUserById(req.params.id);
         res.status(200).json({ message: "User deleted successfully", database: dbResponse })

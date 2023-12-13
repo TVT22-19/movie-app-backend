@@ -1,7 +1,7 @@
 const pgPool = require("../connection");
 
 async function getUsers(){
-    const result = await pgPool.query("SELECT * FROM users");
+    const result = await pgPool.query("SELECT id, username, registration_date, age, firstname, lastname, avatar_url FROM users");
     return result.rows;
 }
 
