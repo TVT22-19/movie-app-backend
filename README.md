@@ -302,3 +302,370 @@ Respond to a join request by either adding the user to the group or ignoring the
 
 - Status Code: `500 Internal Server Error`
   - Content: `{ "error": "Internal Server Error" }`
+
+# USER
+
+Endpoints to manage user data
+
+## 1. Get List of All Users
+
+### Endpoint: `GET /users`
+
+Retrieve a list of all users
+
+### Request:
+
+- Method: `GET`
+- URL: `/users`
+
+### Response:
+
+- Status Code: `200 OK`
+  - Content: Array of group objects, each containing:
+    - `id`: ID of the user
+    - `username`: Username of the user
+    - `registration_date`: Registration date of the user
+    - `age`: Age of the user
+    - `firstname`: Firstname of the user
+    - `lastname`: Lastname of the user
+    - `avatar_url`: Avatar URL of the user
+
+- Status Code: `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error"}`
+
+## 2. Get user by ID
+
+### Endpoint: `GET /users/:id`
+
+Retrieve specific user information based on the user ID
+
+### Request:
+
+  - Method: `GET`
+  - URL: `/users/:id`
+
+### Response:
+
+- Status Code: `200 OK`
+  - Content: Object containing:
+    - `id`: ID of the user
+    - `username`: Username of the user
+    - `registration_date`: Registration date of the user
+    - `age`: Age of the user
+    - `firstname`: Firstname of the user
+    - `lastname`: Lastname of the user
+    - `avatar_url`: Avatar URL of the user
+
+- Status Code: `404 Not Found`
+  - Content: `{ "error": "User not found" }`
+
+- Status Code: `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 3. Update user information
+
+### Endpoint: `POST /users/update`
+
+Update user information
+
+### Request:
+
+- Method: `POST`
+- URL: `/users/update`
+- Body:
+  - `id`: ID of the user
+  - `username`: New username of the user
+  - `password`: New password of the user
+  - `registration_date`: Registration date of the user
+  - `age`: New age of the user
+  - `firstname`: New firstname of the user
+  - `lastname`: New lastname of the user
+  - `avatar_url`: New avatar URL of the user
+
+### Response
+
+- Status Code: `200 OK`
+  - Content: Object containing:
+    - `message`: "Update successful"
+    - `username`: New username
+    - `token`: Newly generated token
+
+- Status Code: `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 4. Delete user
+
+### Endpoint: `/users/delete/:id`
+
+Removes user from database
+
+### Request:
+
+- Method: `DELETE`
+- URL: `/users/delete/:id`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: 
+    - `message`: "User deleted successfully"
+    - `database`: Database response
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+# REVIEW
+
+Endpoints for managing review data
+
+## 1. Get all reviews
+
+### Endpoint: `/review`
+
+Retrieves all reviews
+
+### Request:
+
+- Method: `GET`
+- URL: `/review`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: Array of review objects, each containing:
+    - `id`: ID of the review
+    - `timestamp`: Timestamp of the review
+    - `user_id`: User ID of the review owner
+    - `movie_id`: Movie ID of the movie which the review were written
+    - `content`: Review content
+    - `rating`: Review rating
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 2. Get review by ID
+
+### Endpoint: `/review/:id`
+
+Retrieve specific review information
+
+### Request:
+
+- Method: `GET`
+- URL: `/review/:id`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: Object of the review, containing:
+    - `id`: ID of the review
+    - `timestamp`: Timestamp of the review
+    - `user_id`: User ID of the review owner
+    - `movie_id`: Movie ID of the movie which the review were written
+    - `content`: Review content
+    - `rating`: Review rating
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 3. Get reviews by movie ID
+
+### Endpoint: `/review/movieid/:id`
+
+Retrieve specific movies reviews
+
+### Request:
+
+- Method: `GET`
+- URL: `/review/movieid/:id`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: Array of review objects, each containing:
+    - `id`: ID of the review
+    - `timestamp`: Timestamp of the review
+    - `user_id`: User ID of the review owner
+    - `movie_id`: Movie ID of the movie which the review were written
+    - `content`: Review content
+    - `rating`: Review rating
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 4. Add review
+
+### Endpoint: `/review`
+
+Create new review
+
+### Request:
+
+- Method: `POST`
+- URL: `/review`
+- Body:
+  - `userID`: ID of the user who created the review
+  - `movieID`: ID of the movie which this review was written
+  - `content`: Content of the review
+  - `rating`: Rating of the review
+
+### Response
+
+- Status Code `200 OK`
+  - Content: 
+    - `message`: "Review added successfully"
+    - `database`: database response
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 5. Delete review
+
+### Endpoint: `/review/:reviewID`
+
+Removes the review with ID
+
+### Request:
+
+- Method: `DELETE`
+- URL: `/review/:reviewID`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: 
+    - `message`: "Review deleted successfully"
+    - `database`: Database response
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 6. Get reviews by user ID
+
+### Endpoint: `/review/userid/:userID`
+
+Retrieve list of users reviews
+
+### Request:
+
+- Method: `GET`
+- URL: `/review/userid/:userID`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: Array of review objects, each containing:
+    - `id`: ID of the review
+    - `timestamp`: Timestamp of the review
+    - `user_id`: User ID of the review owner
+    - `movie_id`: Movie ID of the movie which the review were written
+    - `content`: Review content
+    - `rating`: Review rating
+
+- Status Code `404 Not found`
+  - Content: `{ "error": "Reviews not found" }`
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+# MOVIEDB
+
+Endpoints for managing the movie database data
+
+## 1. Get genres
+
+### Endpoint: `/moviedb/genres`
+
+Retrieve genres and their IDs
+
+### Request:
+
+- Method: `GET`
+- URL: `/moviedb/genres`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: Array of genre object, containing:
+    - `id`: ID of the genre
+    - `genre`: Genre name
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 2. Get movie details with ID
+
+### Endpoint: `/moviedb/:movieID`
+
+Retrieve information about the movie with ID
+
+### Request:
+
+- Method: `GET`
+- URL: `/moviedb/:movieID`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: Movie object from the movie database
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 3. Search movies
+
+### Endpoint: `/moviedb/search/movie/:query`
+
+Retrieves movie details that apply to search query
+
+### Request:
+
+- Method: `GET`
+- URL: `/moviedb/search/movie/:query`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: Array of movie objects from the movie databse
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 4. Search TV series
+
+### Endpoint: `/moviedb/search/tv/:query`
+
+Retrieves TV series details that apply to search query
+
+### Request:
+
+- Method: `GET`
+- URL: `/moviedb/search/tv/:query`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: Array of TV series objects from the movie database
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
+
+## 5. Generate full URL for movie posters
+
+### Endpoint: `/moviedb/pic/:picID`
+
+Generates full URL for movie posters
+
+### Request:
+
+- Method: `GET`
+- URL: `/moviedb/pic/:picID`
+
+### Response
+
+- Status Code `200 OK`
+  - Content: 
+    - `picture_url`: Full URL for the picture
+
+- Status Code `500 Internal Server Error`
+  - Content: `{ "error": "Internal Server Error" }`
