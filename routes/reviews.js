@@ -46,7 +46,7 @@ router.get("/movieid/:id", async (req, res) => {
 /* Add review */
 router.post("/", async (req, res) => {
     const { user_id, movie_id, content, rating } = req.body;
-    if(!userID || !movieID || !content || !rating){
+    if(!user_id || !movie_id || !content || !rating){
         return res.status(400).json({ error: "userID, movieID, content and rating must not be empty" });
     }
 
