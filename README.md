@@ -93,7 +93,7 @@ Retrieve a list of all groups with their IDs and names.
 #### Request:
 
 - Method: `GET`
-- URL: `/group/allgroups`
+- URL: `/groups/allgroups`
 
 #### Response:
 
@@ -114,7 +114,7 @@ Retrieve information about a specific group based on the group ID.
 #### Request:
 
 - Method: `GET`
-- URL: `/group/:groupId` (Replace `:groupId` with the ID of the desired group.)
+- URL: `/groups/:groupId` (Replace `:groupId` with the ID of the desired group.)
 
 #### Response:
 
@@ -132,14 +132,14 @@ Retrieve information about a specific group based on the group ID.
 
 ## 3. Retrieve Group Members' Basic Info
 
-### Endpoint: `GET /group/members/:groupId`
+### Endpoint: `GET /groups/members/:groupId`
 
 Retrieve basic information about members of a specific group.
 
 #### Request:
 
 - Method: `GET`
-- URL: `/group/members/:groupId` (Replace `:groupId` with the ID of the desired group.)
+- URL: `/groups/members/:groupId` (Replace `:groupId` with the ID of the desired group.)
 
 #### Response:
 
@@ -157,14 +157,14 @@ Retrieve basic information about members of a specific group.
 
 ## 4. Add Group
 
-### Endpoint: `POST /group/add`
+### Endpoint: `POST /groups/add`
 
 Create a new group.
 
 #### Request:
 
 - Method: `POST`
-- URL: `/group/add`
+- URL: `/groups/add`
 - Body:
   - `gname`: Name of the new group.
   - `gdesc`: Description of the new group.
@@ -183,7 +183,7 @@ Create a new group.
 
 ## 5. Delete Group
 
-### Endpoint: `DELETE /group/delete/:groupId`
+### Endpoint: `DELETE /groups/delete/:groupId`
 
 Delete a group based on the group ID.
 
@@ -204,14 +204,14 @@ Delete a group based on the group ID.
 
 ## 6. Add User to Group
 
-### Endpoint: `POST /group/addmember`
+### Endpoint: `POST /groups/addmember`
 
 Add a user to a group.
 
 #### Request:
 
 - Method: `POST`
-- URL: `/group/addmember`
+- URL: `/groups/addmember`
 - Body:
   - `userid`: ID of the user to add.
   - `groupid`: ID of the group to which the user is added.
@@ -227,14 +227,14 @@ Add a user to a group.
 
 ## 7. Delete User from Group
 
-### Endpoint: `DELETE /group/deletemember/:userId`
+### Endpoint: `DELETE /deletemember/:userId/from/:groupId`
 
 Remove a user from a group.
 
 #### Request:
 
 - Method: `DELETE`
-- URL: `/group/deletemember/:userId` (Replace `:userId` with the ID of the user.)
+- URL: `/groups/deletemember/:userId/from/:groupId` (Replace `:userId` with the ID of the user.)
 
 #### Response:
 
@@ -498,7 +498,7 @@ Endpoints for managing review data
 
 ## 1. Get all reviews
 
-### Endpoint: `/review`
+### Endpoint: `/reviews`
 
 Retrieves all reviews
 
@@ -523,14 +523,14 @@ Retrieves all reviews
 
 ## 2. Get review by ID
 
-### Endpoint: `/review/:id`
+### Endpoint: `/reviews/:id`
 
 Retrieve specific review information
 
 ### Request:
 
 - Method: `GET`
-- URL: `/review/:id`
+- URL: `/reviews/:id`
 
 ### Response
 
@@ -555,7 +555,7 @@ Retrieve specific movies reviews
 ### Request:
 
 - Method: `GET`
-- URL: `/review/movieid/:id`
+- URL: `/reviews/movieid/:id`
 
 ### Response
 
@@ -573,14 +573,14 @@ Retrieve specific movies reviews
 
 ## 4. Add review
 
-### Endpoint: `/review`
+### Endpoint: `/reviews`
 
 Create new review
 
 ### Request:
 
 - Method: `POST`
-- URL: `/review`
+- URL: `/reviews`
 - Body:
   - `userID`: ID of the user who created the review
   - `movieID`: ID of the movie which this review was written
@@ -599,14 +599,14 @@ Create new review
 
 ## 5. Delete review
 
-### Endpoint: `/review/:reviewID`
+### Endpoint: `/reviews/:reviewID`
 
 Removes the review with ID
 
 ### Request:
 
 - Method: `DELETE`
-- URL: `/review/:reviewID`
+- URL: `/reviews/:reviewID`
 
 ### Response
 
@@ -620,14 +620,14 @@ Removes the review with ID
 
 ## 6. Get reviews by user ID
 
-### Endpoint: `/review/userid/:userID`
+### Endpoint: `/reviews/userid/:userID`
 
 Retrieve list of users reviews
 
 ### Request:
 
 - Method: `GET`
-- URL: `/review/userid/:userID`
+- URL: `/reviews/userid/:userID`
 
 ### Response
 
@@ -754,14 +754,14 @@ Endpoints to manage authorizations
 
 ## 1. Login
 
-### Endpoint: `/auth/login`
+### Endpoint: `/auth`
 
 Endpoint for login
 
 ### Request:
 
 - Method: `POST`
-- URL: `/auth/login`
+- URL: `/auth`
 - Body:
   - `username`: Username of the user
   - `password`: Password of the user
@@ -782,14 +782,14 @@ Endpoint for login
 
 ## 2. Register
 
-### Endpoint: `/auth/registration`
+### Endpoint: `/registration`
 
 Endpoint for registration
 
 ### Request:
 
 - Method: `POST`
-- URL: `/auth/registration`
+- URL: `/registration`
 - Body:
   - `username`: Username of the user
   - `password`: Password of the user
