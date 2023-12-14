@@ -1,4 +1,5 @@
 const pgPool = require("../connection");
+require("dotenv").config();
 
 const sql = {
     GET_REVIEWS: "SELECT * FROM reviews",
@@ -8,6 +9,26 @@ const sql = {
     DELETE_REVIEW: "DELETE FROM reviews WHERE id = $1",
     GET_REVIEWS_BY_USER_ID: "SELECT * FROM reviews WHERE user_id = $1"
 }
+
+const getMovieDetailsById = async (movieID) => {
+    const options = {
+        method: "GET",
+        headers: {
+            accept: "application/json",
+            Authorization: "Bearer " + process.env.ACCESS_TOKEN
+        }
+    };
+    try {
+        console.log(movieID);
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieID}`, options);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching movie details:', error);
+      throw error;
+    }
+  };
+
 
 async function getReviews(){
     const result = await pgPool.query(sql.GET_REVIEWS);
@@ -34,8 +55,26 @@ async function deleteReview(reviewID){
 }
 
 async function getReviewsByUserId(userID){
-    const result = await pgPool.query(sql.GET_REVIEWS_BY_USER_ID, [userID]);
-    return result.rows;
+      try {
+        const reviews  = await pgPool.query(sql.GET_REVIEWS_BY_USER_ID, [userID]);
+        
+        if (reviews.rows.length === 0) {
+            return [];
+        }
+  
+      const reviewsWithMovieNames = await Promise.all(
+        reviews.rows.map(async (review) => {
+            const movieId = review.movie_id;
+            const movieResult = await getMovieDetailsById(movieId);
+            const movieName = movieResult.original_title || 'Title not found';
+            return { ...review, movieName };
+        })
+      )
+        return reviewsWithMovieNames;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch review information.', error);
+    }
 }
 
 module.exports = { getReviews, getReviewById, addReview, deleteReview, getReviewByMovieId, getReviewsByUserId };
