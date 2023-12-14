@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const { getUsers, getUserById, updateUserById, deleteUserById } = require("../database_tools/user");
 
 const jwtSecret = process.env.JWT_SECRET || "default-secret-key";
@@ -13,7 +12,7 @@ router.get("/", async (req, res) => {
         const users = await getUsers();
         res.send(users);
     }catch(error){
-        console.error("Error with database connection");
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
@@ -28,11 +27,12 @@ router.get("/:id", async (req, res) => {
         const user = await getUserById(req.params.id);
         res.send(user);
     }catch(error){
-        console.error("Error with database connection");
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
+/* Update user */
 router.post("/update", async (req, res) => {
     const {username, password, age, firstname, lastname, avatar_url, id} = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -43,11 +43,12 @@ router.post("/update", async (req, res) => {
         const dbResponse = await updateUserById(username, hashedPassword, age, firstname, lastname, avatar_url, id);
         res.status(200).json({ message: "Update successful", username: username, token: token });
     }catch(error){
-        console.error("Error with database connection");
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 })
 
+/* Delete user by ID */
 router.delete("/delete/:id", async (req, res) => {
     if(!req.params.id) return res.status(400).json({ error: "User ID is required" });
     
@@ -55,7 +56,7 @@ router.delete("/delete/:id", async (req, res) => {
         const dbResponse = await deleteUserById(req.params.id);
         res.status(200).json({ message: "User deleted successfully", database: dbResponse })
     }catch(error){
-        console.error("Error with database connection");
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 })

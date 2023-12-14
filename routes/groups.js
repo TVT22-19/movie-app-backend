@@ -1,18 +1,15 @@
-
-
 const express = require("express");
 const router = express.Router();
 const pgPool = require("../connection");
 const { getGroup, getAllGroups, addGroup, deleteGroup, addGroupMember, getGroupMembers, deleteGroupMember, userIsMember, userIsOwner, getGroupsByUser } = require('../database_tools/group_db');
 
 //GET LIST OF ALL GROUPS => group id, group name only)
-
 router.get("/allgroups", async (req, res) => {
     try {
         const result = await getAllGroups();
         res.status(200).json(result);
     } catch (error) {
-        console.log(error);
+        console.log("Error while interacting with the database:", error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -20,19 +17,18 @@ router.get("/allgroups", async (req, res) => {
 
 // RETRIEVE GROUP INFO (for specified group)
 // param: group id =>  name, description, avatar_url
-
 router.get("/:groupId", async (req, res) => {
     try {
         const groupId = req.params.groupId;
         const result = await getGroup(groupId);
         if (!result){
-            res.status(200).json({ error: 'Group not found' });
+            res.status(200).json([]);
         }else{
             res.status(204).json(result);
         }
         
     } catch (error) {
-        console.log(error);
+        console.log("Error while interacting with the database:", error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -52,11 +48,10 @@ router.get("/members/:groupId", async (req, res) => {
         }
         
     } catch (error) {
-        console.log(error);
+        console.log("Error while interacting with the database:", error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
 
 // ADD GROUP
 // gname, gdesc, gavatar, owner 
@@ -176,7 +171,5 @@ router.get("/groupsbyuser/:userId", async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
-
 
 module.exports = router;

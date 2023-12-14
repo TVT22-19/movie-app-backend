@@ -1,10 +1,8 @@
-
 const express = require("express");
 const router = express.Router();
 const pgPool = require("../connection");
 const {addRequest, deleteRequest, getOwnedGroups, getPendingRequests} = require('../database_tools/requests_db');
 const {addGroupMember} = require('../database_tools/group_db');
-const {getUserById} = require("../database_tools/user")
 
 // GET PENDING REQUESTS
 router.get("/:userId", async (req, res) => {
@@ -30,12 +28,10 @@ router.get("/:userId", async (req, res) => {
             res.status(200).json(pendingRequests);
         }
     } catch (error) {
-        console.error("Error while processing the request:", error);
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
-
 
 // ADD GROUP JOIN REQUEST
 // user_id, group_id

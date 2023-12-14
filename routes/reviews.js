@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const { getReviews, getReviewById, addReview, deleteReview, getReviewByMovieId, getReviewsByUserId } = require("../database_tools/review");
 
 /* GET reviews listing. */
@@ -9,7 +8,7 @@ router.get("/", async (req, res) => {
         const reviews = await getReviews();
         res.send(reviews);
     }catch(error){
-        console.error("Error with database connection");
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
@@ -24,7 +23,7 @@ router.get("/:id", async (req, res) => {
         const review = await getReviewById(req.params.id);
         res.send(review);
     }catch(error){
-        console.error("Error with database connection");
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
@@ -39,7 +38,7 @@ router.get("/movieid/:id", async (req, res) => {
         const review = await getReviewByMovieId(req.params.id);
         res.send(review);
     }catch(error){
-        console.error("Error with database connection", error);
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
@@ -55,11 +54,12 @@ router.post("/", async (req, res) => {
         const dbResponse = await addReview(user_id, movie_id, content, rating);
         res.status(200).json({ message: "Review added succesfully", database: dbResponse });
     }catch(error){
-        console.error("Error with database connection");
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
+/* Delete review by ID */
 router.delete("/:reviewID", async (req, res) => {
     if(!req.params.reviewID){
         return res.status(400).json({ error: "Review ID required" });
@@ -69,11 +69,12 @@ router.delete("/:reviewID", async (req, res) => {
         const dbResponse = await deleteReview(req.params.reviewID);
         res.status(200).json({ message: "Review deleted successfully", database: dbResponse });
     }catch(error){
-        console.error("Error with database connection");
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 })
 
+/* Get reviews by user ID */
 router.get("/userid/:userID", async (req, res) => {
     if(!req.params.userID){
         return res.status(400).json({ error: "User ID required" });
@@ -82,7 +83,7 @@ router.get("/userid/:userID", async (req, res) => {
     try{
         const reviews = await getReviewsByUserId(req.params.userID);
         if(reviews.length < 1){
-            return res.send({})
+            return res.send([])
         }
         /*  OBSOLETE --- Used to convert byte rating to string
         reviews.forEach(element => {
@@ -92,7 +93,7 @@ router.get("/userid/:userID", async (req, res) => {
         */
         res.send(reviews);
     }catch(error){
-        console.error("Error with database connection");
+        console.error("Error while interacting with the database:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 })

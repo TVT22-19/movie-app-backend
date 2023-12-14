@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const pgPool = require("../connection");
-const {getUsers} = require("../database_tools/user");
 
 const jwtSecret = process.env.JWT_SECRET || "default-secret-key";
 
@@ -13,6 +12,7 @@ const hashPassword = async (password) => {
     return bcrypt.hash(password, saltRounds);
 };
 
+// Login endpoint
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
@@ -49,6 +49,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
+// Register endpoint
 router.post("/registration", async (req, res) => {
     const { username, password } = req.body;
 
