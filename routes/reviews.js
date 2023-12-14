@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { getReviews, getReviewById, addReview, deleteReview } = require("../database_tools/review");
+const { getReviews, getReviewById, addReview, deleteReview, getReviewByMovieId, getReviewsByUserId } = require("../database_tools/review");
 
 /* GET reviews listing. */
 router.get("/", async (req, res) => {
-    console.log(new Date());
     try{
         const reviews = await getReviews();
         res.send(reviews);
@@ -30,15 +29,30 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-/* Add review */
-router.post("/", async (req, res) => {
-    const { userID, movieID, content } = req.body;
-    if(!userID || !movieID || !content){
-        return res.status(400).json({ error: "userID, movieID and content must not be empty" });
+/* Get review by movie ID */
+router.get("/movieid/:id", async (req, res) => {
+    if(!req.params.id){
+        return res.status(400).json({ error: "Movie ID is required" });
     }
 
     try{
-        const dbResponse = await addReview(userID, movieID, content);
+        const review = await getReviewByMovieId(req.params.id);
+        res.send(review);
+    }catch(error){
+        console.error("Error with database connection", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+/* Add review */
+router.post("/", async (req, res) => {
+    const { userID, movieID, content, rating } = req.body;
+    if(!userID || !movieID || !content || !rating){
+        return res.status(400).json({ error: "userID, movieID, content and rating must not be empty" });
+    }
+
+    try{
+        const dbResponse = await addReview(userID, movieID, content, rating);
         res.status(200).json({ message: "Review added succesfully", database: dbResponse });
     }catch(error){
         console.error("Error with database connection");
@@ -54,6 +68,29 @@ router.delete("/:reviewID", async (req, res) => {
     try{
         const dbResponse = await deleteReview(req.params.reviewID);
         res.status(200).json({ message: "Review deleted successfully", database: dbResponse });
+    }catch(error){
+        console.error("Error with database connection");
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
+
+router.get("/userid/:userID", async (req, res) => {
+    if(!req.params.userID){
+        return res.status(400).json({ error: "User ID required" });
+    }
+
+    try{
+        const reviews = await getReviewsByUserId(req.params.userID);
+        if(reviews.length < 1){
+            return res.send({})
+        }
+        /*  OBSOLETE --- Used to convert byte rating to string
+        reviews.forEach(element => {
+            element.rating = element.rating.toString().trim()
+        });
+        console.log(reviews[0].rating)
+        */
+        res.send(reviews);
     }catch(error){
         console.error("Error with database connection");
         res.status(500).json({ error: "Internal Server Error" });
