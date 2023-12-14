@@ -3,10 +3,8 @@ const pgPool = require("../connection");
 const sql = {
     GET_GROUP: 'SELECT name, description, avatar_url FROM groups WHERE id=$1',
     GET_ALL_GROUPS: 'SELECT id, name FROM groups',
-    ADD_GROUP: 'INSERT INTO groups (name, description, avatar_url, owner_id) VALUES ($1, $2, $3, $4)',
+    ADD_GROUP: 'INSERT INTO groups (name, description, avatar_url, owner_id) VALUES ($1, $2, $3, $4) RETURNING id',
     DELETE_GROUP: 'DELETE FROM groups WHERE id=$1',
-    ADD_GROUP_POST: '', //table for posts not created yet
-    GET_GROUP_MEMBERS: 'SELECT user_id FROM user_groups WHERE group_id=$1',
     GET_GROUP_MEMBERS: 'SELECT user_id FROM user_groups WHERE group_id=$1',
     GET_MEMBER_INFO: 'SELECT username, avatar_url FROM users WHERE id=$1',
     ADD_GROUP_MEMBER: 'INSERT INTO user_groups (user_id, group_id) VALUES ($1, $2)',
@@ -72,7 +70,8 @@ async function getGroupMembers(groupId) {
 async function addGroup(groupName, groupDescription, groupAvatar, groupOwner) {
 
     const addGroupResult = await pgPool.query(sql.ADD_GROUP, [groupName, groupDescription, groupAvatar, groupOwner]);
-    return addGroupResult.rows[0];
+    const result = await pgPool.query(sql.ADD_GROUP_MEMBER, [groupOwner, addGroupResult.rows[0].id])
+    return result.rows;
 
 }
 
