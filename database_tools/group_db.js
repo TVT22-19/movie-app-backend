@@ -3,16 +3,15 @@ const pgPool = require("../connection");
 const sql = {
     GET_GROUP: 'SELECT name, description, avatar_url FROM groups WHERE id=$1',
     GET_ALL_GROUPS: 'SELECT id, name FROM groups',
-    ADD_GROUP: 'INSERT INTO groups (name, description, avatar_url, owner_id) VALUES ($1, $2, $3, $4)',
+    ADD_GROUP: 'INSERT INTO groups (name, description, avatar_url, owner_id) VALUES ($1, $2, $3, $4) RETURNING id',
     DELETE_GROUP: 'DELETE FROM groups WHERE id=$1',
-    ADD_GROUP_POST: '', //table for posts not created yet
-    GET_GROUP_MEMBERS: 'SELECT user_id FROM user_groups WHERE group_id=$1',
     GET_GROUP_MEMBERS: 'SELECT user_id FROM user_groups WHERE group_id=$1',
     GET_MEMBER_INFO: 'SELECT username, avatar_url FROM users WHERE id=$1',
     ADD_GROUP_MEMBER: 'INSERT INTO user_groups (user_id, group_id) VALUES ($1, $2)',
     DELETE_GROUP_MEMBER: 'DELETE FROM user_groups WHERE user_id=$1 AND group_id=$2',
     USER_IS_MEMBER: "SELECT * FROM user_groups WHERE user_id = $1 AND group_id = $2",
-    USER_IS_OWNER: "SELECT * FROM groups WHERE owner_id = $1 AND id = $2"
+    USER_IS_OWNER: "SELECT * FROM groups WHERE owner_id = $1 AND id = $2",
+    GET_GROUPS_BY_USER: "SELECT * FROM user_groups WHERE user_id = $1"
 }
 
 
@@ -20,6 +19,14 @@ async function getGroup(groupId) {
     let result = await pgPool.query(sql.GET_GROUP, [groupId]);
     if (result.rows.length > 0) {
         return result.rows[0];
+    } else {
+        return null;
+    }
+}
+async function getGroupsByUser(userId) {
+    let result = await pgPool.query(sql.GET_GROUPS_BY_USER, [userId]);
+    if (result.rows.length > 0) {
+        return result.rows;
     } else {
         return null;
     }
@@ -63,7 +70,8 @@ async function getGroupMembers(groupId) {
 async function addGroup(groupName, groupDescription, groupAvatar, groupOwner) {
 
     const addGroupResult = await pgPool.query(sql.ADD_GROUP, [groupName, groupDescription, groupAvatar, groupOwner]);
-    return addGroupResult.rows[0];
+    const result = await pgPool.query(sql.ADD_GROUP_MEMBER, [groupOwner, addGroupResult.rows[0].id])
+    return result.rows;
 
 }
 
@@ -106,4 +114,4 @@ async function userIsOwner(userID, groupID){
 
 
 
-module.exports = { getGroup, getAllGroups, addGroup, getGroupMembers, addGroupMember, deleteGroupMember, deleteGroup, userIsMember, userIsOwner };
+module.exports = { getGroup, getAllGroups, addGroup, getGroupMembers, addGroupMember, deleteGroupMember, deleteGroup, userIsMember, userIsOwner, getGroupsByUser };

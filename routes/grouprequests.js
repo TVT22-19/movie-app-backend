@@ -4,6 +4,7 @@ const router = express.Router();
 const pgPool = require("../connection");
 const {addRequest, deleteRequest, getOwnedGroups, getPendingRequests} = require('../database_tools/requests_db');
 const {addGroupMember} = require('../database_tools/group_db');
+const {getUserById} = require("../database_tools/user")
 
 // GET PENDING REQUESTS
 router.get("/:userId", async (req, res) => {
@@ -18,10 +19,11 @@ router.get("/:userId", async (req, res) => {
 
             for (const group of ownedGroups) {
                 const groupId = group.id;
+                const groupName = group.name;
                 const requests = await getPendingRequests(groupId);
 
                 if (requests) {
-                    pendingRequests.push({ group_id: groupId, requests });
+                    pendingRequests.push({ group_id: groupId, group_name: groupName, requests });
                 }
             }
 
