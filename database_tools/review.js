@@ -66,8 +66,8 @@ async function getReviewsByUserId(userID){
         reviews.rows.map(async (review) => {
             const movieId = review.movie_id;
             const movieResult = await getMovieDetailsById(movieId);
-            const movieName = movieResult.original_title || 'Title not found';
-            return { ...review, movieName };
+            const movie_name = movieResult.original_title || 'Title not found';
+            return { ...review, movie_name };
         })
       )
         return reviewsWithMovieNames;
