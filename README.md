@@ -97,7 +97,7 @@ Retrieve a list of all groups with their IDs and names.
 
 #### Response:
 
-- Status Code: `201 OK`
+- Status Code: `200 OK`
   - Content: Array of group objects, each containing:
     - `id`: ID of the group.
     - `name`: Name of the group.
@@ -118,14 +118,11 @@ Retrieve information about a specific group based on the group ID.
 
 #### Response:
 
-- Status Code: `201 OK`
+- Status Code: `200 OK`
   - Content: Object containing:
     - `name`: Name of the group.
     - `description`: Description of the group.
     - `avatar_url`: URL of the group's avatar.
-
-- Status Code: `404 Not Found`
-  - Content: `{ "error": "Group not found" }`
 
 - Status Code: `500 Internal Server Error`
   - Content: `{ "error": "Internal Server Error" }`
@@ -143,7 +140,7 @@ Retrieve basic information about members of a specific group.
 
 #### Response:
 
-- Status Code: `201 OK`
+- Status Code: `200 OK`
   - Content: Array of member objects, each containing:
     - `id`: ID of the member.
     - `username`: Username of the member.
@@ -173,7 +170,7 @@ Create a new group.
 
 #### Response:
 
-- Status Code: `201 OK`
+- Status Code: `200 OK`
   - Content: Object containing:
     - `message`: "Group created successfully".
     - `result`: Object with the ID and name of the new group.
@@ -194,7 +191,7 @@ Delete a group based on the group ID.
 
 #### Response:
 
-- Status Code: `201 OK`
+- Status Code: `202 OK`
   - Content: Object containing:
     - `result`: null.
     - `message`: "Group deleted".
@@ -227,18 +224,18 @@ Add a user to a group.
 
 ## 7. Delete User from Group
 
-### Endpoint: `DELETE /group/deletemember/:userId`
+### Endpoint: `DELETE /group/deletemember/:userId/from/groupId`
 
 Remove a user from a group.
 
 #### Request:
 
 - Method: `DELETE`
-- URL: `/group/deletemember/:userId` (Replace `:userId` with the ID of the user.)
+- URL: `//group/deletemember/:userId/from/groupId` (Replace `:userId` with the ID of the user.)
 
 #### Response:
 
-- Status Code: `201 OK`
+- Status Code: `202 OK`
   - Content: Object containing:
     - `result`: null.
 
@@ -505,7 +502,7 @@ Retrieves all reviews
 ### Request:
 
 - Method: `GET`
-- URL: `/review`
+- URL: `/reviews`
 
 ### Response
 
@@ -523,14 +520,14 @@ Retrieves all reviews
 
 ## 2. Get review by ID
 
-### Endpoint: `/review/:id`
+### Endpoint: `/reviews/:id`
 
 Retrieve specific review information
 
 ### Request:
 
 - Method: `GET`
-- URL: `/review/:id`
+- URL: `/reviews/:id`
 
 ### Response
 
@@ -548,14 +545,14 @@ Retrieve specific review information
 
 ## 3. Get reviews by movie ID
 
-### Endpoint: `/review/movieid/:id`
+### Endpoint: `/reviews/movieid/:id`
 
 Retrieve specific movies reviews
 
 ### Request:
 
 - Method: `GET`
-- URL: `/review/movieid/:id`
+- URL: `/reviews/movieid/:id`
 
 ### Response
 
@@ -573,14 +570,14 @@ Retrieve specific movies reviews
 
 ## 4. Add review
 
-### Endpoint: `/review`
+### Endpoint: `/reviews`
 
 Create new review
 
 ### Request:
 
 - Method: `POST`
-- URL: `/review`
+- URL: `/reviews`
 - Body:
   - `userID`: ID of the user who created the review
   - `movieID`: ID of the movie which this review was written
@@ -606,7 +603,7 @@ Removes the review with ID
 ### Request:
 
 - Method: `DELETE`
-- URL: `/review/:reviewID`
+- URL: `/reviews/:reviewID`
 
 ### Response
 
@@ -627,7 +624,7 @@ Retrieve list of users reviews
 ### Request:
 
 - Method: `GET`
-- URL: `/review/userid/:userID`
+- URL: `/reviews/userid/:userID`
 
 ### Response
 
@@ -639,9 +636,6 @@ Retrieve list of users reviews
     - `movie_id`: Movie ID of the movie which the review were written
     - `content`: Review content
     - `rating`: Review rating
-
-- Status Code `404 Not found`
-  - Content: `{ "error": "Reviews not found" }`
 
 - Status Code `500 Internal Server Error`
   - Content: `{ "error": "Internal Server Error" }`
@@ -761,7 +755,7 @@ Endpoint for login
 ### Request:
 
 - Method: `POST`
-- URL: `/auth/login`
+- URL: `/auth`
 - Body:
   - `username`: Username of the user
   - `password`: Password of the user
@@ -782,14 +776,14 @@ Endpoint for login
 
 ## 2. Register
 
-### Endpoint: `/auth/registration`
+### Endpoint: `/registration`
 
 Endpoint for registration
 
 ### Request:
 
 - Method: `POST`
-- URL: `/auth/registration`
+- URL: `/registration`
 - Body:
   - `username`: Username of the user
   - `password`: Password of the user
