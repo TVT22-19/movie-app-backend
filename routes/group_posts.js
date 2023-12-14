@@ -14,12 +14,12 @@ router.get("/:groupID", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { title, userID, groupID, content } = req.body;
-    if(!userID || !groupID){
+    const { title, user_id, group_id, content } = req.body;
+    if(!user_id || !group_id){
         return res.status(400).json({ error: "userID and groupID required!" });
     }
     try{
-        const dbResponse = await createPost(title, userID, groupID, content);
+        const dbResponse = await createPost(title, user_id, group_id, content);
         res.status(200).json({ message: "Post created successfully", database: dbResponse });
     }catch(error){
         console.error("Error with database connection");

@@ -26,9 +26,9 @@ router.get("/:groupId", async (req, res) => {
         const groupId = req.params.groupId;
         const result = await getGroup(groupId);
         if (!result){
-            res.status(204).json({ error: 'Group not found' });
+            res.status(200).json({ error: 'Group not found' });
         }else{
-            res.status(200).json(result);
+            res.status(204).json(result);
         }
         
     } catch (error) {
