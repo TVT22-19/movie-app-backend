@@ -14,7 +14,6 @@ const groupsRouter = require("./routes/groups");
 const requestsRouter = require("./routes/grouprequests");
 const reviewRouter = require("./routes/reviews");
 const groupPostRouter = require("./routes/group_posts");
-const searchRouter = require("./routes/search");
 const moviedbRouter = require("./routes/moviedb");
 
 const app = express();
@@ -37,7 +36,6 @@ app.use("/group", groupsRouter);
 app.use("/grouprequest", requestsRouter);
 app.use("/review", reviewRouter);
 app.use("/group-post", groupPostRouter);
-app.use("/search", searchRouter);
 app.use("/moviedb", moviedbRouter);
 
 // TODO: move port to .env
