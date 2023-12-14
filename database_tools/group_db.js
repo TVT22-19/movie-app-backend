@@ -68,11 +68,9 @@ async function getGroupMembers(groupId) {
 }
 
 async function addGroup(groupName, groupDescription, groupAvatar, groupOwner) {
-
     const addGroupResult = await pgPool.query(sql.ADD_GROUP, [groupName, groupDescription, groupAvatar, groupOwner]);
     const result = await pgPool.query(sql.ADD_GROUP_MEMBER, [groupOwner, addGroupResult.rows[0].id])
     return result.rows;
-
 }
 
 
@@ -80,19 +78,15 @@ async function addGroupMember(userId, groupId) {
     //is it necessary to check if there are any duplicate user-group connections?
     const addMemberResult = await pgPool.query(sql.ADD_GROUP_MEMBER, [userId, groupId]);
     return addMemberResult.rows[0];
-
 }
 async function deleteGroupMember(userId, groupId) {
     const deleteMemberResult = await pgPool.query(sql.DELETE_GROUP_MEMBER, [userId, groupId]);
     return deleteMemberResult.rows[0];
-
 }
 
 async function deleteGroup(groupId) {
-
     const deleteGroupResult = await pgPool.query(sql.DELETE_GROUP, [groupId]);
     return deleteGroupResult.rows[0];
-
 }
 
 async function userIsMember(userID, groupID){
@@ -110,8 +104,5 @@ async function userIsOwner(userID, groupID){
     }
     return true;
 }
-
-
-
 
 module.exports = { getGroup, getAllGroups, addGroup, getGroupMembers, addGroupMember, deleteGroupMember, deleteGroup, userIsMember, userIsOwner, getGroupsByUser };

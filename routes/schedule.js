@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const xmlParser = require("fast-xml-parser");
 
 /* GET news listing. */
