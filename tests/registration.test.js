@@ -3,7 +3,7 @@ const request = require('supertest');
 const app = require('../app');
 
 describe('User Registration', () => {
-    const testUser = { username: 'testUser', password: 'testPassword' };
+    const testUser = { username: 'testUser6', password: 'testPassword7' };
 
     it('should create a new user and return success message', async () => {
         const response = await request(app)

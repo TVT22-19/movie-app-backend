@@ -46,13 +46,13 @@ router.get("/movieid/:id", async (req, res) => {
 
 /* Add review */
 router.post("/", async (req, res) => {
-    const { userID, movieID, content, rating } = req.body;
+    const { user_id, movie_id, content, rating } = req.body;
     if(!userID || !movieID || !content || !rating){
         return res.status(400).json({ error: "userID, movieID, content and rating must not be empty" });
     }
 
     try{
-        const dbResponse = await addReview(userID, movieID, content, rating);
+        const dbResponse = await addReview(user_id, movie_id, content, rating);
         res.status(200).json({ message: "Review added succesfully", database: dbResponse });
     }catch(error){
         console.error("Error with database connection");

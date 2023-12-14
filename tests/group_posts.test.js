@@ -19,8 +19,8 @@ describe('Group Post API', () => {
     it('should create a new post', async () => {
         const postData = {
             title: 'New Post',
-            user_id: '1',
-            group_id: '3',
+            user_id: '4',
+            group_id: '4',
             content: 'Some content',
         };
 
@@ -33,7 +33,7 @@ describe('Group Post API', () => {
     });
 
     it('should delete a post by user ID', async () => {
-        const response = await request(app).delete('/group-post/1');
+        const response = await request(app).delete('/group-post/9');
 
         expect(response.status).to.equal(200);
         expect(response.body).to.have.property('message', 'Post deleted successfully');

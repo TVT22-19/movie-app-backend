@@ -22,11 +22,6 @@ router.get("/:userId", async (req, res) => {
                 const groupName = group.name;
                 const requests = await getPendingRequests(groupId);
 
-                //let userNames = []
-                //for(const request of requests){
-                 //   request.push({username: await getUserById(requests[i].id)})
-                //}
-
                 if (requests) {
                     pendingRequests.push({ group_id: groupId, group_name: groupName, requests });
                 }

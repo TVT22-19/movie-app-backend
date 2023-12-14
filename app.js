@@ -39,7 +39,7 @@ app.use("/news", newsRouter);
 app.use("/schedule", scheduleRouter);
 app.use("/group", groupsRouter);
 app.use("/grouprequest", requestsRouter);
-app.use("/review", reviewRouter);
+app.use("/reviews", reviewRouter);
 app.use("/group-post", groupPostRouter);
 app.use("/search", searchRouter);
 app.use("/moviedb", moviedbRouter);

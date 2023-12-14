@@ -5,7 +5,7 @@ const app = require('../app');
 describe('User Deletion', () => {
     it('should delete a user and return success message', async () => {
         const response = await request(app)
-            .delete('/delete/1');
+            .delete('/delete/25');
 
         expect(response.status).to.equal(200);
         expect(response.body).to.have.property('message', 'User deleted successfully');

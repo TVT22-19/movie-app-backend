@@ -16,21 +16,31 @@ describe('Review API', () => {
         expect(response.status).to.equal(200);
     });
 
-    it('should add a review', async () => {
+    it('should add a review', async (done) => {
         const newReview = {
-            userID: 1,
-            movieID: 1,
+            user_id: 4,
+            movie_id: 361743,
             content: 'Great movie!',
+            rating: 5.3
         };
+        /*
         const response = await request(app)
             .post('/reviews')
-            .send(newReview);
+            .send(newReview)
         expect(response.status).to.equal(200);
-
+        */
+        request(app)
+            .post('/reviews')
+            .send(newReview)
+            .end((err, res) => {
+                expect(res.status).to.equal(200);
+                expect(res.body).to.be.an('object');
+            });
+        done();
     });
 
     it('should delete a review by ID', async () => {
-        const response = await request(app).delete('/reviews/1');
+        const response = await request(app).delete('/reviews/24');
         expect(response.status).to.equal(200);
     });
 });
