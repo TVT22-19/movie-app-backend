@@ -97,7 +97,7 @@ Retrieve a list of all groups with their IDs and names.
 
 #### Response:
 
-- Status Code: `201 OK`
+- Status Code: `200 OK`
   - Content: Array of group objects, each containing:
     - `id`: ID of the group.
     - `name`: Name of the group.
@@ -118,14 +118,11 @@ Retrieve information about a specific group based on the group ID.
 
 #### Response:
 
-- Status Code: `201 OK`
+- Status Code: `200 OK`
   - Content: Object containing:
     - `name`: Name of the group.
     - `description`: Description of the group.
     - `avatar_url`: URL of the group's avatar.
-
-- Status Code: `404 Not Found`
-  - Content: `{ "error": "Group not found" }`
 
 - Status Code: `500 Internal Server Error`
   - Content: `{ "error": "Internal Server Error" }`
@@ -143,14 +140,11 @@ Retrieve basic information about members of a specific group.
 
 #### Response:
 
-- Status Code: `201 OK`
+- Status Code: `200 OK`
   - Content: Array of member objects, each containing:
     - `id`: ID of the member.
     - `username`: Username of the member.
     - `avatar`: URL of the member's avatar.
-
-- Status Code: `404 Not Found`
-  - Content: `{ "error": "Group not found" }`
 
 - Status Code: `500 Internal Server Error`
   - Content: `{ "error": "Internal Server Error" }`
@@ -194,7 +188,7 @@ Delete a group based on the group ID.
 
 #### Response:
 
-- Status Code: `201 OK`
+- Status Code: `202 OK`
   - Content: Object containing:
     - `result`: null.
     - `message`: "Group deleted".
@@ -332,7 +326,7 @@ Retrieve pending join requests for groups owned by the user.
 
 #### Response:
 
-- Status Code: `200 OK`
+- Status Code: `201 OK`
   - Content: Array of objects, each containing:
     - `group_id`: ID of the group.
     - `requests`: Array of user IDs with pending requests for the group.
@@ -492,7 +486,7 @@ Removes user from database
 - Status Code `500 Internal Server Error`
   - Content: `{ "error": "Internal Server Error" }`
 
-# REVIEW
+# REVIEWS
 
 Endpoints for managing review data
 
@@ -639,9 +633,6 @@ Retrieve list of users reviews
     - `movie_id`: Movie ID of the movie which the review were written
     - `content`: Review content
     - `rating`: Review rating
-
-- Status Code `404 Not found`
-  - Content: `{ "error": "Reviews not found" }`
 
 - Status Code `500 Internal Server Error`
   - Content: `{ "error": "Internal Server Error" }`
