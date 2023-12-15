@@ -22,7 +22,7 @@ router.get("/:groupId", async (req, res) => {
         const groupId = req.params.groupId;
         const result = await getGroup(groupId);
         if (!result){
-            res.status(204).json([]);
+            res.status(200).json([]);
         }else{
             res.status(200).json(result);
         }
@@ -41,7 +41,7 @@ router.get("/members/:groupId", async (req, res) => {
         const groupId = req.params.groupId;
         const result = await getGroupMembers(groupId);
         if (!result){
-            res.status(204).json([]);
+            res.status(200).json([]);
         }else{
             const resultArray = Array.isArray(result) ? result : [result]; // ensuring that result is an array
             res.status(200).json(resultArray);
@@ -160,7 +160,7 @@ router.get("/groupsbyuser/:userId", async (req, res) => {
         const userId = req.params.userId;
         const result = await getGroupsByUser(userId);
         if (!result){
-            res.status(204).json([]);
+            res.status(200).json([]);
         }else{
             const resultArray = Array.isArray(result) ? result : [result]; // ensuring that result is an array
             res.status(200).json(resultArray);
